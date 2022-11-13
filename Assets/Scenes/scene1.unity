@@ -185,8 +185,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74b6b9b6c06332a449c6df4f056e44bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noiseSampleSize: 0
-  scale: 0
+  noiseSampleSize: 30
+  scale: 3
 --- !u!1 &1506903138
 GameObject:
   m_ObjectHideFlags: 0
