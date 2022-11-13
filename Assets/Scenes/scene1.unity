@@ -187,6 +187,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   noiseSampleSize: 30
   scale: 3
+  textureResolution: 2
 --- !u!1 &1506903138
 GameObject:
   m_ObjectHideFlags: 0
