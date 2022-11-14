@@ -5,7 +5,7 @@ using UnityEngine;
 public class TextureBuilder
 {
     // builds a texture based on the given noise map
-    public static Texture2D BuildTexture(float[,] noiseMap)
+    public static Texture2D BuildTexture(float[,] noiseMap, TerrainType[] terrainTypes)
     {
         // cteate color array for the pixels
         Color[] pixels = new Color[noiseMap.Length];
@@ -21,7 +21,16 @@ public class TextureBuilder
                 // next index in the 'pixels' array
                 int index = (x * pixelLength) + z;
 
-                pixels[index] = Color.Lerp(Color.black, Color.white, noiseMap[x, z]);
+                //pixels[index] = Color.Lerp(Color.black, Color.white, noiseMap[x, z]);
+
+                foreach (TerrainType terrainType in terrainTypes)
+                {
+                    if (noiseMap[x, z] < terrainType.threshold)
+                    {
+                        pixels[index] = terrainType.color;
+                        break;
+                    }
+                }
             }
         }
 
