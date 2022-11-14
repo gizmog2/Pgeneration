@@ -32,7 +32,7 @@ public class TileGenerator : MonoBehaviour
         // generate a new height map
         float[,] heightMap = NoiseGenerator.GenerateNoiseMap(noiseSampleSize, scale);
 
-        float[,] hdHeightMap = NoiseGenerator.GenerateNoiseMap(noiseSampleSize, scale, textureResolution);
+        float[,] hdHeightMap = NoiseGenerator.GenerateNoiseMap(noiseSampleSize -1, scale, textureResolution);
 
         Vector3[] verts = tileMeshFilter.mesh.vertices;
 
@@ -65,5 +65,5 @@ public class TerrainType
 {
     [Range(0.0f, 1.0f)]
     public float threshold;
-    public Color color;
+    public Gradient colorGradient;
 }
