@@ -20,6 +20,7 @@ public class NoiseGenerator
                 float noise = 0.0f;
                 float norvalization = 0.0f;
 
+                // appy the various different waves to add in varied terrain
                 foreach (Wave wave in waves)
                 {
                     noise += wave.amplitude * Mathf.PerlinNoise(samplePosX * wave.frequence + wave.seed, samplePosY * wave.frequence + wave.seed);
@@ -31,6 +32,23 @@ public class NoiseGenerator
             }
         }
 
+        return noiseMap;
+    }
+
+    public static float[,] GenerateUniformNoiseMap(int size, float vertexOffset, float maxVertexDistance)
+    {
+        float[,] noiseMap = new float[size, size];
+
+        for (int x = 0; x < size; x++)
+        {
+            float xSample = x + vertexOffset;
+            float noise = Mathf.Abs(xSample) / maxVertexDistance;
+
+            for (int z = 0; z < size; z++)
+            {
+                noiseMap[x, size - z - 1] = noise;
+            }
+        }
         return noiseMap;
     }
 }
