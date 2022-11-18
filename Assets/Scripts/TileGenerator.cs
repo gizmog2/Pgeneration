@@ -6,7 +6,8 @@ public enum TerrainVisualization
 {
     Height,
     Heat,
-    Moisture
+    Moisture,
+    Biome
 }
 
 public class TileGenerator : MonoBehaviour
@@ -90,6 +91,9 @@ public class TileGenerator : MonoBehaviour
         // apply the height map texture to the MeshRenderer
         //tileMeshRenderer.material.mainTexture = heightMapTexture;
 
+        TerrainType[,] heatTerrainTypeMap = TextureBuilder.CreateTerrainTypeMap(heatMap, heatTerrainTypes);
+        TerrainType[,] moistureTerrainTypeMap = TextureBuilder.CreateTerrainTypeMap(moistureMap, moistureTerrainTypes);
+
         switch (visualizationType)
         {
             case TerrainVisualization.Height:
@@ -101,7 +105,9 @@ public class TileGenerator : MonoBehaviour
             case TerrainVisualization.Moisture:
                 tileMeshRenderer.material.mainTexture = TextureBuilder.BuildTexture(moistureMap, moistureTerrainTypes);
                 break;
-            
+            case TerrainVisualization.Biome:
+                tileMeshRenderer.material.mainTexture = BiomeBuilder.instance.BuildTexture(heatTerrainTypeMap, moistureTerrainTypeMap);
+                break;
         }
 
         /*float[,] moistureMap = GenerateMoisureMap(heightMap);
@@ -149,6 +155,7 @@ public class TileGenerator : MonoBehaviour
 [System.Serializable]
 public class TerrainType
 {
+    public int index;
     [Range(0.0f, 1.0f)]
     public float threshold;
     public Gradient colorGradient;

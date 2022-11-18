@@ -227,6 +227,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1672901156}
   - component: {fileID: 1672901155}
+  - component: {fileID: 1672901157}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -264,6 +265,55 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1672901157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1672901154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 237d6b868edaf7843adb842421082043, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  biomeRows:
+  - biomes:
+    - name: desert
+      color: {r: 1, g: 0.7058824, b: 0.13725491, a: 0}
+    - name: desert
+      color: {r: 1, g: 0.7058824, b: 0.14509805, a: 0}
+    - name: tundra
+      color: {r: 0.41176474, g: 0.9176471, b: 1, a: 0}
+    - name: tundra
+      color: {r: 0.41960788, g: 0.91372555, b: 1, a: 0}
+  - biomes:
+    - name: savanna
+      color: {r: 0.8078432, g: 0.8941177, b: 0.29803923, a: 0}
+    - name: savanna
+      color: {r: 0.8117648, g: 0.8941177, b: 0.27450982, a: 0}
+    - name: forest
+      color: {r: 0.17254902, g: 0.81568635, b: 0.15294118, a: 0}
+    - name: tundra
+      color: {r: 0.41960788, g: 0.91372555, b: 1, a: 0}
+  - biomes:
+    - name: rainforest
+      color: {r: 0.07058824, g: 0.454902, b: 0.10980393, a: 0}
+    - name: rainforest
+      color: {r: 0.08627451, g: 0.454902, b: 0.1137255, a: 0}
+    - name: forest
+      color: {r: 0.16078432, g: 0.8196079, b: 0.13725491, a: 0}
+    - name: forest
+      color: {r: 0.16862746, g: 0.81568635, b: 0.15294118, a: 0}
+  - biomes:
+    - name: rainforest
+      color: {r: 0.09411766, g: 0.44705886, b: 0.10980393, a: 0}
+    - name: rainforest
+      color: {r: 0.08235294, g: 0.45098042, b: 0.10980393, a: 0}
+    - name: forest
+      color: {r: 0.16470589, g: 0.81568635, b: 0.15686275, a: 0}
+    - name: forest
+      color: {r: 0.1764706, g: 0.81568635, b: 0.14509805, a: 0}
 --- !u!1 &2017085792
 GameObject:
   m_ObjectHideFlags: 0

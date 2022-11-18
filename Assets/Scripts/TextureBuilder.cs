@@ -54,4 +54,28 @@ public class TextureBuilder
         texture.Apply();
         return texture;
     }
+
+    public static TerrainType[,] CreateTerrainTypeMap(float[,] noiseMap, TerrainType[] terrainTypes)
+    {
+        int size = noiseMap.GetLength(0);
+        TerrainType[,] outputMap = new TerrainType[size, size];
+
+        for (int x = 0; x < size; x++)
+        {
+            for (int z = 0; z < size; z++)
+            {
+                for (int t = 0; t < terrainTypes.Length; t++)
+                {
+                    if (noiseMap[x, z] < terrainTypes[t].threshold)
+                    {
+                        outputMap[x, z] = terrainTypes[t];
+                        break;
+                    }
+                }
+            }
+        }
+
+        return outputMap;
+    }
+
 }
