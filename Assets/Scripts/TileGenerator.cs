@@ -2,6 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum TerrainVisualization
+{
+    Height,
+    Heat,
+    Moisture
+}
+
 public class TileGenerator : MonoBehaviour
 {
     [Header("Parameters")]
@@ -9,6 +16,7 @@ public class TileGenerator : MonoBehaviour
     public float scale;
     public float maxHeight = 1.0f;
     public int textureResolution = 1;
+    public TerrainVisualization visualizationType;
 
     [HideInInspector]
     public Vector2 offset;
@@ -16,10 +24,12 @@ public class TileGenerator : MonoBehaviour
     [Header("Terrain Types")]
     public TerrainType[] heightTerrainTypes;
     public TerrainType[] heatTerrainTypes;
+    public TerrainType[] moistureTerrainTypes;
 
     [Header("Waves")]
     public Wave[] waves;
     public Wave[] heatWaves;
+    public Wave[] moistureWaves;
 
     [Header("Curves")]
     public AnimationCurve heightCurve;
@@ -74,13 +84,31 @@ public class TileGenerator : MonoBehaviour
         // create the height map texture
         Texture2D heightMapTexture = TextureBuilder.BuildTexture(hdHeightMap, heightTerrainTypes);
 
+        float[,] heatMap = GenerateHeatMap(heightMap);
+        float[,] moistureMap = GenerateMoisureMap(heightMap);
+
         // apply the height map texture to the MeshRenderer
         //tileMeshRenderer.material.mainTexture = heightMapTexture;
 
-        float[,] heatMap = GenerateHeatMap(heightMap);
-        tileMeshRenderer.material.mainTexture = TextureBuilder.BuildTexture(heatMap, heatTerrainTypes);
+        switch (visualizationType)
+        {
+            case TerrainVisualization.Height:
+                tileMeshRenderer.material.mainTexture = TextureBuilder.BuildTexture(hdHeightMap, heightTerrainTypes);
+                break;
+            case TerrainVisualization.Heat:
+                tileMeshRenderer.material.mainTexture = TextureBuilder.BuildTexture(heatMap, heatTerrainTypes);
+                break;
+            case TerrainVisualization.Moisture:
+                tileMeshRenderer.material.mainTexture = TextureBuilder.BuildTexture(moistureMap, moistureTerrainTypes);
+                break;
+            
+        }
+
+        /*float[,] moistureMap = GenerateMoisureMap(heightMap);
+        tileMeshRenderer.material.mainTexture = TextureBuilder.BuildTexture(moistureMap, moistureTerrainTypes);*/
     }
 
+    // generate a new heat map
     float[,] GenerateHeatMap(float[,] heightMap)
     {
         float[,] uniformHeatMap = NoiseGenerator.GenerateUniformNoiseMap(noiseSampleSize, transform.position.z * (noiseSampleSize / meshGenerator.xSize), (noiseSampleSize / 2 * mapGenerator.numX) + 1);
@@ -100,7 +128,21 @@ public class TileGenerator : MonoBehaviour
             
         }
         return heatMap;
+    }
 
+    float[,] GenerateMoisureMap(float[,] heihgtMap)
+    {
+        float[,] moistureMap = NoiseGenerator.GenerateNoiseMap(noiseSampleSize, scale, moistureWaves, offset);
+
+        for (int x = 0; x < noiseSampleSize; x++)
+        {
+            for (int z = 0; z < noiseSampleSize; z++)
+            {
+                moistureMap[x, z] -= 0.1f * heihgtMap[x, z];
+            }
+        }
+
+        return moistureMap;
     }
 }
 
