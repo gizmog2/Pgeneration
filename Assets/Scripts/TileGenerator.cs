@@ -42,6 +42,8 @@ public class TileGenerator : MonoBehaviour
     private MeshGenerator meshGenerator;
     private MapGenerator mapGenerator;
 
+    private TerrainData[,] dataMap;
+
 
     private void Start()
     {
@@ -112,6 +114,28 @@ public class TileGenerator : MonoBehaviour
 
         /*float[,] moistureMap = GenerateMoisureMap(heightMap);
         tileMeshRenderer.material.mainTexture = TextureBuilder.BuildTexture(moistureMap, moistureTerrainTypes);*/
+
+        CreateDataMap(heatTerrainTypeMap, moistureTerrainTypeMap);
+    }
+
+    void CreateDataMap(TerrainType[,] heatTerrainTypeMap, TerrainType[,] moistureTerrainTypeMap)
+    {
+        dataMap = new TerrainData[noiseSampleSize,noiseSampleSize];
+        Vector3[] verts = tileMeshFilter.mesh.vertices;
+
+        for (int x = 0; x < noiseSampleSize; x++)
+        {
+            for (int z = 0; z < noiseSampleSize; z++)
+            {
+                TerrainData data = new TerrainData();
+                data.position = transform.position + verts[(x * noiseSampleSize) + z];
+                data.heatTerrainType = heatTerrainTypeMap[x, z];
+                data.moistureTerrainType = moistureTerrainTypeMap[x, z];
+                data.biome = BiomeBuilder.instance.GetBiome(data.heatTerrainType, data.moistureTerrainType);
+
+                dataMap[x, z] = data;
+            }
+        }
     }
 
     // generate a new heat map
@@ -159,4 +183,12 @@ public class TerrainType
     [Range(0.0f, 1.0f)]
     public float threshold;
     public Gradient colorGradient;
+}
+
+public class TerrainData
+{
+    public Vector3 position;
+    public TerrainType heatTerrainType;
+    public TerrainType moistureTerrainType;
+    public Biome biome;
 }
